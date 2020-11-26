@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { StyleSheet, Text, View,Image } from 'react-native';
+import { StyleSheet, Text, View,Image,ToastAndroid,KeyboardAvoidingView  } from 'react-native';
 import ReadStoryScreen from './screens/WriteStoryScreen';
 import WriteStoryScreen from './screens/WriteStoryScreen';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 
-export default class App extends React.Component {
+export default class App extends React.Component{
 render(){
-  return (
+  return(
     <View style={styles.container}>
       <AppContainer/>
     </View>

@@ -1,12 +1,43 @@
 import * as React from 'react';
-import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity,TextInput,Alert,KeyboardAvoidingView,ToastAndroid } from 'react-native';
 import {Header} from 'react-native-elements';
-import { TextInput } from 'react-native-gesture-handler';
+import db from '../conifig';
+
 
 export default class WriteStoryScreen extends React.Component{
+
+    constructor(){
+        super();
+        this.state = {
+            storyTitle : '',
+            storyAuthor : '',
+            story : ''
+        }
+    }
+
+    submit = async () => {
+        var transactionMessgae;
+        db.collection('stories').add({
+            'title' : this.state.storyTitle,
+            'author' : this.state.storyAuthor,
+            'story' : this.state.story
+        })
+        
+        transactionMessgae = "Story Sumbmitted"
+        Alert.alert('Story Submitted')
+        //ToastAndroid.show(transactionMessgae,ToastAndroid.SHORT)
+
+        this.setState({
+            storyAuthor : '',
+            storyTitle : '',
+            story : ''
+        })
+
+    }
+
     render(){
         return(
-            <View style = {styles.container}>
+            <KeyboardAvoidingView style = {styles.container}>
                 <Header 
                 backgroundColor = 'pink'
                 centerComponent = {{
@@ -18,26 +49,40 @@ export default class WriteStoryScreen extends React.Component{
                 <TextInput
                     style = {styles.inputBox}
                         placeholder = 'STORY TITLE'
-                        
+                        onChangeText = {text => {
+                            this.setState({
+                                storyTitle : text
+                            })
+                        }}
                     />
 
                 <TextInput
                     style = {styles.inputBox}
                         placeholder = 'AUTHOR'
-                        
+                        onChangeText = {text => {
+                            this.setState({
+                                storyAuthor : text
+                            })
+                        }}
                     />
 
                 <TextInput
                     multiline = {true}
                     style = {styles.inputBox2}
                         placeholder = 'STORY'
-                        
+                        onChangeText = {text => {
+                            this.setState({
+                                story : text
+                            })
+                        }} 
                     />
 
-                <TouchableOpacity style = {styles.submitButton}>
+                <TouchableOpacity style = {styles.submitButton}
+                onPress = {this.submit}
+                >
                     <Text style = {styles.buttonText} > Submit </Text>    
                 </TouchableOpacity>    
-            </View>
+            </KeyboardAvoidingView>
         )
     }
 }
